@@ -3,6 +3,6 @@ const App = require('./js/App.js');
 
 const app = new App();
 
-cron.schedule('0 1 * * *', () => {
+cron.schedule('0 0 * * * *', () => {
     app.init();
 });
