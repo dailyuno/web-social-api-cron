@@ -22,6 +22,20 @@ module.exports = class YoutubeApi {
         }
     }
 
+    static async getAllPlayLists() {
+        const { items, nextPageToken } = await YoutubeApi.getPlayLists();
+        const list = [...items];
+        let token = nextPageToken;
+
+        while (token) {
+            const { items, nextPageToken } = await YoutubeApi.getPlayLists(token);
+            list.push(...items);
+            token = nextPageToken;
+        }
+
+        return list;
+    }
+
     /**
      * 유튜브 채널 - 재생목록 리스트 가지고 오기
      */
@@ -41,6 +55,20 @@ module.exports = class YoutubeApi {
         } catch (e) {
             console.log(e);
         }
+    }
+
+    static async getAllPlayListItems(id) {
+        const { items, nextPageToken } = await YoutubeApi.getPlayListItems(id);
+        const list = [...items];
+        let token = nextPageToken;
+
+        while (token) {
+            const { items, nextPageToken } = await YoutubeApi.getPlayListItems(id, token);
+            list.push(...items);
+            token = nextPageToken;
+        }
+
+        return list;
     }
 
     /**
